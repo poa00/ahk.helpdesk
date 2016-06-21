@@ -27,75 +27,43 @@ Return
 ; Note that chrome must be used, firefox does not select the text boxes correctly
 	DetectHiddenWindows, On
 	Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
-	Sleep, 3500
-	IfWinActive , ID Lookup Tools
+	Loop
 	{
-		WinMaximize, ID Lookup Tools
-		Send, %InputID%
-		Send, {ENTER}
-	}
-	Else IfWinActive, Eagles' Nest Home - Wake Technical Community College
-	{
-		Send, ^a
-		Send, {BACKSPACE}
-		Sleep, 100
-		Send, Itshelpdesk
-		Sleep, 100
-		Send, {Tab}
-		Sleep, 100
-		Send, ^a
-		Send, {BACKSPACE}
-		Sleep, 100
-		Send, P@ssW0rd
-		Sleep, 100
-		Send, {Tab}
-		Sleep, 100
-		Send, {ENTER}
-		WinWaitActive, ID Lookup Tools
-		WinActivate , ID Lookup Tools
-		WinMaximize, ID Lookup Tools
-		Send, %InputID%
-		Send, {Enter}	
-	}
-	Else
-	{
-		MsgBox, ERROR - Login Unavailable, Login Unavailable, please navigate to eaglesnest login page
-		loop
+		IfWinActive , ID Lookup Tools
 		{
-			IfWinActive, ID Lookup Tools
-			{
-				WinMaximize, ID Lookup Tools
-				Send, %InputID%
-				Send, {ENTER}
-				Break
-			}
-			Else IfWinActive, Eagles' Nest Home - Wake Technical Community College
-			{
-				Send, ^a
-				Send, {BACKSPACE}
-				Sleep, 100
-				Send, Itshelpdesk
-				Sleep, 100
-				Send, {Tab}
-				Sleep, 100
-				Send, ^a
-				Send, {BACKSPACE}
-				Sleep, 100
-				Send, P@ssW0rd
-				Sleep, 100
-				Send, {Tab}
-				Sleep, 100
-				Send, {ENTER}
-				WinWaitActive, ID Lookup Tools
-				WinActivate , ID Lookup Tools
-				WinMaximize, ID Lookup Tools
-				Send, %InputID%
-				Send, {Enter}	
-				Break
-			}
+			Sleep, 100
+			WinMaximize, ID Lookup Tools
+			Send, %InputID%
+			Send, {ENTER}
+			Break
+		}
+		Else IfWinActive, Eagles' Nest Home - Wake Technical Community College
+		{
 			Sleep, 500
+			Send, ^a
+			Send, {BACKSPACE}
+			Sleep, 100
+			Send, Itshelpdesk
+			Sleep, 100
+			Send, {Tab}
+			Sleep, 100
+			Send, ^a
+			Send, {BACKSPACE}
+			Sleep, 100
+			Send, P@ssW0rd
+			Sleep, 100
+			Send, {Tab}
+			Sleep, 100
+			Send, {ENTER}
+			WinActivate , ID Lookup Tools
+			WinWaitActive, ID Lookup Tools
+			WinMaximize, ID Lookup Tools
+			Send, %InputID%
+			Send, {Enter}
+			Break
 		}
 	}
+	
 	Sleep, 300
 	
 ;Retrieve some important info from the website
@@ -122,6 +90,15 @@ Return
 	StringTrimRight, Name, Name, 1
 	Sleep, 500
 	FileDelete, site.txt
+	
+	WinActivate, ID Lookup Tools
+	Sleep, 50
+	WinGetPos,,,Xmax,Ymax,A ; get active window size
+	Ycenter := Ymax/2
+	Send, {ALTDOWN}
+	ControlClick, x10 y%Ycenter%, A   ;this is the safest point, I think
+	Send, {ALTUP}
+	
 
 
 
@@ -139,28 +116,26 @@ Return
 			WinClose
 		}
 		Sleep, 50
-		Run, Password Control, , , PassControlID
-		GroupAdd, PassControl
-		Sleep, 1000
+		Run, Password Control
+		WinWaitActive Password Control   (Waiting for Username...)
 		Send, {alt}
-		Sleep, 100
+		Sleep, 50
 		Send, {ENTER}
-		Sleep, 100
+		Sleep, 50
 		Send, {ENTER}
-		Sleep, 100
+		WinWaitActive, Logon
 		SendInput, accountop
-		Sleep, 500
+		Sleep, 50
 		Send, {TAB}
-		Sleep, 500
+		Sleep, 50
 		Send, Stand@rd
-		Sleep, 1000
+		Sleep, 50
 		Send, {ENTER}
-		Sleep, 1000
+		Sleep, 50
 		
 		;Enter the username we found through the lookup
 		Send, %UserName%
-		Sleep, 300
-		Send, +`t
+		Sleep, 30
 
 	;Append the inputted username/id to a txt file for later reference
 	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`n, log.csv
