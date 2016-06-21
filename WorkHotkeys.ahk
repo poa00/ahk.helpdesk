@@ -21,7 +21,7 @@ DetectHiddenWindows, On
 
 Return
 !b::
-		ifWinActive, Google Chrome
+	ifWinActive, Google Chrome
 	{
 		Run, Chrome.exe https://dist-ed.waketech.edu/
 	}
@@ -35,6 +35,7 @@ Return
 	}
 Return
 !c::
+	ifWinActive, Google Chrome
 	{
 		Run, Chrome.exe "https://secure.waketech.edu/ResetPassword/"
 	}
@@ -166,6 +167,26 @@ Return
 	}
 	
 	
+	
+	Send, ^f
+	Sleep, 100
+	Send, User Principal Name
+	Sleep, 100
+	Send, {ENTER}
+	Sleep, 100
+	Send, {ESC}
+	Sleep, 100
+	Send, ^+{UP}
+	Sleep, 100
+	Send, ^c
+	Sleep, 50
+	clipwait
+	StringReplace, clipboard, clipboard, %A_SPACE%,, All
+	StringReplace, clipboard, clipboard, %A_TAB%, +, All
+	StringReplace, clipboard, clipboard,`r`n,,A
+	UserEmail = %clipboard%
+	
+	
 	Sleep, 30
 	UserName = % TF_ReadLines("site.txt",21,21)
 	Sleep, 30
@@ -231,7 +252,7 @@ Return
 		Sleep, 30
 
 	;Append the inputted username/id to a txt file for later reference
-	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`,%UserType%`,%AccountEnabled%`n, log.csv
+	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`, %UserEmail%`,%UserType%`,%AccountEnabled%`n, log.csv
 	Sleep, 100
 	
 	MsgBox,
@@ -241,6 +262,7 @@ Return
 		"UserName" = %UserName%
 		"Account Status" = %AccountEnabled%
 		"User Type" = %UserType%
+		"User Email Address" = %UserEmail%
 	)
 	
 	
@@ -274,37 +296,20 @@ F12::
 !n:: ; Staff member lookup
 	InputBox, First, First Name, Input the employee's first name, or leave blank
 	InputBox, Last, Last Name, Input the employee's last name, or leave blank
-	Run, Chrome.exe "http://www.waketech.edu/directory-search"
+	IfWinActive, Google Chrome
 	{
-		Run, Chrome.exe "http://www.waketech.edu/directory-search"
+		Run, Chrome.exe http://www.waketech.edu/directory-list?last=%Last%&first=%First%&phone=
 	}
 	else ifWinActive, Mozilla Firefox
 	{
-		Run, Firefox.exe "http://www.waketech.edu/directory-search"
+		Run, Firefox.exe http://www.waketech.edu/directory-list?last=%Last%&first=%First%&phone=
 	}
 	else
 	{
-		Run, "http://www.waketech.edu/directory-search"
+		Run, http://www.waketech.edu/directory-list?last=%Last%&first=%First%&phone=
 	}
-	Sleep, 1500
-	;Pressing tab 23 times gets to the last name field
 	
-	Loop, 22
-	{
-		Send, {TAB}
-		Sleep, 100	
-	}
-	Send, %Last%
-	Sleep, 100
-	Send, {TAB}
-	Sleep, 100
-	Send, %First%
-	Sleep, 100
-	Send, {TAB}
-	Sleep, 100
-	Send, {ENTER}
-	
-Return
+	Return
 
 
 
