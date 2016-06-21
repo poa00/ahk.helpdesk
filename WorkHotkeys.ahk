@@ -30,9 +30,12 @@ Return
 	Loop
 	{
 		IfWinActive , ID Lookup Tools
-		{
-			Sleep, 100
+		{	
 			WinMaximize, ID Lookup Tools
+			Sleep, 200
+			CoordMode, Mouse, Window
+			Click, 1111, 202
+			Sleep, 100
 			Send, %InputID%
 			Send, {ENTER}
 			Break
@@ -73,6 +76,18 @@ Return
 	Send, ^c
 	Sleep, 200
 	FileAppend, %clipboard%, site.txt
+	Sleep, 30
+	ErrorLevel = 0
+	StringGetPos, doesntmatter, clipboard, Account Enabled
+	Sleep, 30
+	If ErrorLevel = 1
+	{
+		AccountEnabled = Disabled
+	}
+	Else
+	{
+		AccountEnabled = Enabled
+	}
 	Sleep, 30
 	UserName = % TF_ReadLines("site.txt",21,21)
 	Sleep, 30
@@ -138,7 +153,7 @@ Return
 		Sleep, 30
 
 	;Append the inputted username/id to a txt file for later reference
-	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`n, log.csv
+	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`,%AccountEnabled%`n, log.csv
 	Sleep, 100
 
 
