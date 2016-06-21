@@ -5,16 +5,47 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 DetectHiddenWindows, On
 ;IniRead, PassControlID, vars.ini, var1
 
-; Verstion 2.1
-; 	- Added failure conditions to prevent script from getting too out of control, and hopefully allowing the script to recover from errors
 !w::
-	Run, Firefox.exe https://webadvisor.waketech.edu/WebAdvisor/WebAdvisor
+	ifWinActive, Google Chrome
+	{
+		Run, Chrome.exe https://webadvisor.waketech.edu/WebAdvisor/WebAdvisor
+	}
+	else ifWinActive, Mozilla Firefox
+	{
+		Run, Firefox.exe https://webadvisor.waketech.edu/WebAdvisor/WebAdvisor
+	}
+	else
+	{
+		Run, https://webadvisor.waketech.edu/WebAdvisor/WebAdvisor
+	}
+
 Return
 !b::
-	Run, Firefox.exe https://dist-ed.waketech.edu/
+		ifWinActive, Google Chrome
+	{
+		Run, Chrome.exe https://dist-ed.waketech.edu/
+	}
+	else ifWinActive, Mozilla Firefox
+	{
+		Run, Firefox.exe https://dist-ed.waketech.edu/
+	}
+	else
+	{
+		Run, https://dist-ed.waketech.edu/
+	}
 Return
 !c::
-	Run, Firefox.exe "https://secure.waketech.edu/ResetPassword/"
+	{
+		Run, Chrome.exe "https://secure.waketech.edu/ResetPassword/"
+	}
+	else ifWinActive, Mozilla Firefox
+	{
+		Run, Firefox.exe "https://secure.waketech.edu/ResetPassword/"
+	}
+	else
+	{
+		Run, "https://secure.waketech.edu/ResetPassword/"
+	}
 Return
 
 !i::
@@ -244,6 +275,17 @@ F12::
 	InputBox, First, First Name, Input the employee's first name, or leave blank
 	InputBox, Last, Last Name, Input the employee's last name, or leave blank
 	Run, Chrome.exe "http://www.waketech.edu/directory-search"
+	{
+		Run, Chrome.exe "http://www.waketech.edu/directory-search"
+	}
+	else ifWinActive, Mozilla Firefox
+	{
+		Run, Firefox.exe "http://www.waketech.edu/directory-search"
+	}
+	else
+	{
+		Run, "http://www.waketech.edu/directory-search"
+	}
 	Sleep, 1500
 	;Pressing tab 23 times gets to the last name field
 	
@@ -270,7 +312,7 @@ Return
 
 ^+g::
 	Send, ^c
-	Run, Firefox.exe "http://www.google.com/search?q=%clipboard%"
+	Run, Chrome.exe "http://www.google.com/search?q=%clipboard%"
 	Return
 	
 Capslock::WinMinimizeAll
