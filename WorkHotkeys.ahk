@@ -76,9 +76,11 @@ Return
 	Send, ^c
 	Sleep, 200
 	FileAppend, %clipboard%, site.txt
+	LookupResult = %clipboard%
 	Sleep, 30
 	ErrorLevel = 0
-	StringGetPos, doesntmatter, clipboard, Account Enabled
+	
+	StringGetPos, gnrcstrng, clipboard, Account Enabled ; Searches the page for the text "Account Enabled"
 	Sleep, 30
 	If ErrorLevel = 1
 	{
@@ -88,6 +90,51 @@ Return
 	{
 		AccountEnabled = Enabled
 	}
+	
+	;Find out whether this person is a staff or student
+	WinActivate, ID Lookup Tools - Google Chrome
+	Sleep, 50
+	WinGetPos,,,Xmax,Ymax,A ; get active window size
+	Ycenter := Ymax/2
+	Send, {ALTDOWN}
+	ControlClick, x10 y%Ycenter%, A   ;this is the safest point, I think
+	Send, {ALTUP}
+	
+	Send, ^f
+	Sleep, 100
+	Send, User Account
+	Sleep, 100
+	Send, {ENTER}
+	Sleep, 100
+	Send, {ESC}
+	Sleep, 100
+	Send, ^+{UP}
+	Sleep, 100
+	Send, ^c
+	Sleep, 50
+	clipwait
+	StringReplace, clipboard, clipboard, %A_SPACE%,, All
+	StringReplace, clipboard, clipboard, %A_TAB%, +, All
+	StringReplace, clipboard, clipboard,`r`n,,A
+	if clipboard = 1
+	{
+		UserType = Staff
+	}
+	else if clipboard = 2
+	{
+		UserType = Student
+	}
+	else
+	{
+		UserType = Unknown
+		MsgBox
+		(
+		ERROR: User Type Unknown
+		Clipboard = %clipboard%
+		)
+	}
+	
+	
 	Sleep, 30
 	UserName = % TF_ReadLines("site.txt",21,21)
 	Sleep, 30
@@ -153,9 +200,19 @@ Return
 		Sleep, 30
 
 	;Append the inputted username/id to a txt file for later reference
-	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`,%AccountEnabled%`n, log.csv
+	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`,%UserType%`,%AccountEnabled%`n, log.csv
 	Sleep, 100
-
+	
+	MsgBox,
+	(
+		"Name" = %Name%
+		"UserID" = %UserID%
+		"UserName" = %UserName%
+		"Account Status" = %AccountEnabled%
+		"User Type" = %UserType%
+	)
+	
+	
 
 
 
