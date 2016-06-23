@@ -62,48 +62,63 @@ Return
 ; Run the ID lookup on eaglesnest
 ; Note that chrome must be used, firefox does not select the text boxes correctly
 	DetectHiddenWindows, On
-	Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
-	Loop
+	ifWinActive, ID Lookup Tools
 	{
-		IfWinActive , ID Lookup Tools
-		{	
-			WinMaximize, ID Lookup Tools
-			Sleep, 200
-			CoordMode, Mouse, Window
-			Click, 1111, 202
-			Sleep, 100
-			Send, %InputID%
-			Send, {ENTER}
-			Break
-		}
-		Else IfWinActive, Eagles' Nest Home - Wake Technical Community College
+		Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
+		Sleep, 1000
+		WinMaximize, ID Lookup Tools
+		Sleep, 200
+		CoordMode, Mouse, Window
+		Click, 1111, 202
+		Sleep, 100
+		Send, %InputID%
+		Send, {ENTER}
+	}
+	else
+	{
+		Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
+		Loop
 		{
-			Sleep, 500
-			Send, ^a
-			Send, {BACKSPACE}
-			Sleep, 100
-			Send, Itshelpdesk
-			Sleep, 100
-			Send, {Tab}
-			Sleep, 100
-			Send, ^a
-			Send, {BACKSPACE}
-			Sleep, 100
-			Send, P@ssW0rd
-			Sleep, 100
-			Send, {Tab}
-			Sleep, 100
-			Send, {ENTER}
-			WinActivate , ID Lookup Tools
-			WinWaitActive, ID Lookup Tools
-			WinMaximize, ID Lookup Tools
-			Send, %InputID%
-			Send, {Enter}
-			Break
+			IfWinActive , ID Lookup Tools
+			{	
+				WinMaximize, ID Lookup Tools
+				Sleep, 200
+				CoordMode, Mouse, Window
+				Click, 1111, 202
+				Sleep, 100
+				Send, %InputID%
+				Send, {ENTER}
+				Break
+			}
+			Else IfWinActive, Eagles' Nest Home - Wake Technical Community College
+			{
+				Sleep, 500
+				Send, ^a
+				Send, {BACKSPACE}
+				Sleep, 100
+				Send, Itshelpdesk
+				Sleep, 100
+				Send, {Tab}
+				Sleep, 100
+				Send, ^a
+				Send, {BACKSPACE}
+				Sleep, 100
+				Send, P@ssW0rd
+				Sleep, 100
+				Send, {Tab}
+				Sleep, 100
+				Send, {ENTER}
+				WinActivate , ID Lookup Tools
+				WinWaitActive, ID Lookup Tools
+				WinMaximize, ID Lookup Tools
+				Send, %InputID%
+				Send, {Enter}
+				Break
+			}
 		}
 	}
 	
-	Sleep, 300
+	Sleep, 600
 	
 ;Retrieve some important info from the website
 	Sleep, 200
@@ -168,6 +183,7 @@ Return
 		ERROR: User Type Unknown
 		Clipboard = %clipboard%
 		)
+		return
 	}
 	
 	
