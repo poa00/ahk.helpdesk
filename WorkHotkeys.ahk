@@ -74,6 +74,31 @@ Return
 		Send, %InputID%
 		Send, {ENTER}
 	}
+	else ifWinActive, Eagles' Nest Home - Wake Technical Community College
+	{
+				Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
+				Sleep, 1000
+				Send, ^a
+				Send, {BACKSPACE}
+				Sleep, 100
+				Send, Itshelpdesk
+				Sleep, 100
+				Send, {Tab}
+				Sleep, 100
+				Send, ^a
+				Send, {BACKSPACE}
+				Sleep, 100
+				Send, P@ssW0rd
+				Sleep, 100
+				Send, {Tab}
+				Sleep, 100
+				Send, {ENTER}
+				WinActivate , ID Lookup Tools
+				WinWaitActive, ID Lookup Tools
+				WinMaximize, ID Lookup Tools
+				Send, %InputID%
+				Send, {Enter}
+	}
 	else
 	{
 		Run, Chrome.exe "https://secure.waketech.edu/eaglesnest/idlookup/"
@@ -151,40 +176,40 @@ Return
 	ControlClick, x10 y%Ycenter%, A   ;this is the safest point, I think
 	Send, {ALTUP}
 	
-	Send, ^f
-	Sleep, 100
-	Send, User Account
-	Sleep, 100
-	Send, {ENTER}
-	Sleep, 100
-	Send, {ESC}
-	Sleep, 100
-	Send, ^+{UP}
-	Sleep, 100
-	Send, ^c
-	Sleep, 50
-	clipwait
-	StringReplace, clipboard, clipboard, %A_SPACE%,, All
-	StringReplace, clipboard, clipboard, %A_TAB%, +, All
-	StringReplace, clipboard, clipboard,`r`n,,A
-	if clipboard = 1
-	{
-		UserType = Staff
-	}
-	else if clipboard = 2
-	{
-		UserType = Student
-	}
-	else
-	{
-		UserType = Unknown
-		MsgBox
-		(
-		ERROR: User Type Unknown
-		Clipboard = %clipboard%
-		)
-		return
-	}
+	;Send, ^f
+	;Sleep, 100
+	;Send, User Account
+	;Sleep, 100
+	;Send, {ENTER}
+	;Sleep, 100
+	;Send, {ESC}
+	;Sleep, 100
+	;Send, ^+{UP}
+	;Sleep, 100
+	;Send, ^c
+	;Sleep, 50
+	;clipwait
+	;StringReplace, clipboard, clipboard, %A_SPACE%,, All
+	;StringReplace, clipboard, clipboard, %A_TAB%, +, All
+	;StringReplace, clipboard, clipboard,`r`n,,A
+	;if clipboard = 1
+	;{
+	;	UserType = Staff
+	;}
+	;else if clipboard = 2
+	;{
+	;	UserType = Student
+	;}
+	;else
+	;{
+	;	UserType = Unknown
+	;	MsgBox
+	;	(
+	;	ERROR: User Type Unknown
+	;	Clipboard = %clipboard%
+	;	)
+	;	return
+	;}
 	
 	
 	
@@ -275,14 +300,14 @@ Return
 	FileAppend, %A_YYYY%-%A_MM%-%A_DD%`,%A_Hour%:%A_Min%:%A_Sec%`,%Name%`,%UserID%`,%UserName%`, %UserEmail%`,%UserType%`,%AccountEnabled%`n, log.csv
 	Sleep, 100
 	
-	MsgBox,
+	MsgBox,		
 	(
-		"Name" = %Name%
-		"UserID" = %UserID%
-		"UserName" = %UserName%
-		"Account Status" = %AccountEnabled%
-		"User Type" = %UserType%
-		"User Email Address" = %UserEmail%
+	
+		Name = %Name%
+		UserID = %UserID%
+		UserName = %UserName%
+		Account Status = %AccountEnabled%
+		User Email Address = %UserEmail%
 	)
 	
 	
