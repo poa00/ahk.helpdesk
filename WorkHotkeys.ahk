@@ -52,8 +52,12 @@ Return
 !i::
 
 ; Ask the user for an ID to lookup
-
+	ErrorLevel = 0
 	InputBox, InputID, User ID, Please Input a Student/Employee ID number or username
+	if ErrorLevel = 1
+	{
+		Return
+	}
 	
 ; Run the ID lookup on eaglesnest
 ; Note that chrome must be used, firefox does not select the text boxes correctly

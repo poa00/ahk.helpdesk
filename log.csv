@@ -1,6 +1,8 @@
-Date,Time,Name,ID,User Name
+Date,Time,Name,ID,User Name, Email Address, User Type, Account Status
 2016-06-21,10:52:57,Bruce Dougherty,1882602,brdougherty	,Enabled
-2016-06-21,12:15:05,Michael Tursam,2051265,matursam	,Staff,Enabled
-2016-06-21,12:16:58,Bukola Akinyemi,2092163,bbakinyemi	,Staff,Enabled
-2016-06-21,13:31:32,Michael Tursam,2051265,matursam	,Staff,Enabled
-2016-06-21,13:33:39,Michael Tursam,2051265,matursam	,Staff,Enabled
+2016-06-21,12:16:58,Bukola Akinyemi,2092163,bbakinyemi ,Staff,Enabled
+2016-06-21,16:06:07,Kennedy Beltran,2070295,kmbeltran	, kmbeltran@my.waketech.edu,Staff,Disabled
+
+2016-06-21,16:40:21,,,, matursam@waketech.edu,Unknown,Disabled
+2016-06-23,08:05:11,Michael Tursam,2051265,matursam	, matursam@waketech.edu,Staff,Enabled
+2016-06-23,08:16:00,Christina B. Robinson,0137480,cbrobinson	, cbrobinson@waketech.edu,Unknown,Disabled
